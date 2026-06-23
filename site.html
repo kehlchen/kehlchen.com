@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Profil</title>
+    
+    <!-- Optional: Das originale GitHub-Design für Markdown-Dateien -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+    
+    <style>
+        /* Hier bestimmst du das Design deiner Main-Website */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: #0d1117; /* Dunkler GitHub-Hintergrund (kannst du anpassen) */
+            color: #c9d1d9;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container für dein Profil */
+        .profile-container {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 45px;
+            background-color: #161b22; /* Etwas helleres Dunkelgrau für die Box */
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 767px) {
+            .profile-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- In diesem Container wird dein Markdown-Inhalt angezeigt -->
+    <!-- "markdown-body" sorgt dafür, dass das GitHub-CSS oben greift -->
+    <div id="profile" class="profile-container markdown-body">
+        <p>Lade Profil-Daten...</p>
+    </div>
+
+    <!-- Skript zum Umwandeln von Markdown in HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // Tausche diese URL mit der RAW-URL deiner GitHub-Markdown-Datei aus!
+        // Wichtig ist das "raw.githubusercontent.com" am Anfang der URL.
+        const URL = 'https://raw.githubusercontent.com/kehlchen/kehlchen/README.md';
+
+        fetch(URL)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Fehler beim Laden der Profildatei.');
+                }
+                return response.text();
+            })
+            .then(markdownText => {
+                // Marked.js parst den Markdown-Text live in HTML
+                document.getElementById('profile').innerHTML = marked.parse(markdownText);
+            })
+            .catch(error => {
+                document.getElementById('profile').innerHTML = `<p style="color: #ff7b72;">${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>

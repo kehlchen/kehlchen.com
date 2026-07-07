@@ -1,12 +1,127 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Page not found!</title>
-  </head>
-  <body>
-    <h1>404. That’s an error. </h1>
-    <h3>The requested URL was not found on this server.</h3>
-    <h3>Get home <a href="https://kehlchen.com">here</a>
-</h3>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>404 - Lost Robin</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-family: Georgia, serif;
+        color: white;
+
+        background:
+            linear-gradient(
+                rgba(20, 15, 10, 0.55),
+                rgba(20, 15, 10, 0.75)
+            ),
+            url("YOUR_IMAGE_URL_HERE")
+            center/cover no-repeat;
+    }
+
+    .card {
+        max-width: 600px;
+        text-align: center;
+
+        padding: 50px;
+        border-radius: 25px;
+
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+
+        border: 1px solid rgba(255,255,255,0.25);
+
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .robin {
+        font-size: 70px;
+        animation: bounce 3s infinite ease-in-out;
+    }
+
+    h1 {
+        font-size: 120px;
+        color: #d35435;
+        text-shadow: 0 5px 20px black;
+    }
+
+    h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    a {
+        display: inline-block;
+
+        padding: 14px 35px;
+
+        background: #d35435;
+        color: white;
+
+        text-decoration: none;
+        border-radius: 50px;
+
+        transition: 0.3s;
+    }
+
+    a:hover {
+        background: #b84328;
+        transform: translateY(-4px);
+    }
+
+
+    @keyframes bounce {
+        0%,100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="robin">🐦</div>
+
+    <h1>404</h1>
+
+    <h2>The Robin Lost Its Way</h2>
+
+    <p>
+        This page seems to have flown away.<br>
+        Our little robin is searching through the woods for it.
+    </p>
+
+    <a href="https://kehlchen.com">
+        Return to the Nest
+    </a>
+
+</div>
+
+</body>
 </html>

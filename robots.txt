@@ -1,0 +1,10 @@
+# Welcome to kehlchen.com robots.txt
+# Good bots follow the rules, bad bots find the treasures.
+
+User-agent: *
+Disallow: /geheime_geld_schublade/
+Disallow: /admin_passwoerter_auf_keinen_fall_oeffnen/
+Disallow: /nuclear_launch_codes/
+Disallow: /super_secret_backdoor_dont_click/
+Disallow: /wp-admin/
+Disallow: /config/
